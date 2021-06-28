@@ -124,7 +124,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    fun addPageIndicators() {
+    private fun addPageIndicators() {
         binding.lytPageIndicator.removeAllViews()
         for (i in listViews.indices) {
             val view = ImageView(applicationContext)
