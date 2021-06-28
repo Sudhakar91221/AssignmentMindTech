@@ -1,15 +1,13 @@
 package com.smn.exam
 
 import android.os.Bundle
-import android.view.View
-import android.widget.*
-import android.widget.AbsListView
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.smn.exam.adapter.MainAdapter
 import com.smn.exam.adapter.ViewPagerAdapter
@@ -26,7 +24,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
 
     private lateinit var listViews: ArrayList<ViewItem>
-    var currentIndex: Int = 0
+    private var currentIndex: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         initUI()
         viewModel = ViewModelProvider(this, MyViewModelFactory()).get(MainViewModel::class.java)
 
-        var adapter = MainAdapter(viewModel.getAllRVData(), this)
+        val adapter = MainAdapter(viewModel.getAllRVData(), this)
 
         binding.recyclerview.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -51,31 +49,6 @@ class MainActivity : AppCompatActivity() {
         )
         binding.recyclerview.isNestedScrollingEnabled = true
         binding.recyclerview.adapter = adapter
-
-        binding.recyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                if (dy > 0) {
-                    // Scrolling up
-                    binding.tabLayout.visibility = View.GONE
-                } else {
-                    // Scrolling down
-                    binding.tabLayout.visibility = View.VISIBLE
-
-                }
-            }
-
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-                if (newState == AbsListView.OnScrollListener.SCROLL_STATE_FLING) {
-                    // Do something
-                } else if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
-                    // Do something
-                } else {
-                    // Do something
-                }
-            }
-        })
 
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
@@ -94,8 +67,8 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    fun initUI() {
-        listViews = ArrayList<ViewItem>()
+    private fun initUI() {
+        listViews = ArrayList()
         listViews.add(ViewItem(1, R.drawable.ic_photo))
         listViews.add(ViewItem(2, R.drawable.ic_photo))
         listViews.add(ViewItem(3, R.drawable.ic_photo))
